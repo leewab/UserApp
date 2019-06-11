@@ -32,6 +32,11 @@ public class UILoginPanel : BaseUI
        
     }
 
+    protected override void OnClose()
+    {
+        ClearPanel();
+    }
+
     protected override void RegisterUIEvent()
     {
         btn_Login.onClick.AddListener(OnClickLoginEvent);
@@ -93,6 +98,17 @@ public class UILoginPanel : BaseUI
         UIManager.Instance.OpenUI<UIMainPanel>();
         UIManager.Instance.CloseUI<UILoginPanel>();
         CancelInvoke();
+    }
+
+    private void ClearPanel()
+    {
+        inp_UserName.text = "";
+        inp_Password.text = "";
+        txt_UserNameHint.text = "";
+        txt_PasswordHint.text = "";
+        txt_LoginHint.text = "";
+        username = null;
+        password = null;
     }
 }
 
