@@ -51,6 +51,7 @@ public class UIManager : Singleton<UIManager>
     {
         var t = GetUI<T>(resPath + typeof(T).Name, UIRoot.CommonPanel);
         t.InitUI(data);
+        t.transform.SetAsLastSibling();
         t.Show();
         return t;
     }

@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 2322019655184690413}
   - component: {fileID: 5051683808035099086}
   m_Layer: 5
-  m_Name: Inp_Username
+  m_Name: Inp_Password2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: 2920302619388280938}
   - component: {fileID: 2920302619388280916}
   - component: {fileID: 2920302619388280939}
+  - component: {fileID: 2013961034}
   m_Layer: 5
   m_Name: UIRegisterPanel
   m_TagString: Untagged
@@ -491,6 +492,28 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &2013961034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920302619388280937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50162852d51e432389f90083c5534a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopUp: {fileID: 2920302619604533220}
+  inp_UserName: {fileID: 2920302619570544923}
+  inp_Password1: {fileID: 2920302619982269462}
+  inp_Password2: {fileID: 5051683808035099086}
+  btn_Login: {fileID: 2920302620022665748}
+  btn_Register: {fileID: 2920302619748966496}
+  txt_UserNameHint: {fileID: 2920302619690675971}
+  txt_Password1Hint: {fileID: 2920302619499936409}
+  txt_Password2Hint: {fileID: 2704854162353420260}
+  txt_RegisterHint: {fileID: 537787069719404383}
 --- !u!1 &2920302619462745823
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,7 +643,7 @@ GameObject:
   - component: {fileID: 2920302619499936410}
   - component: {fileID: 2920302619499936409}
   m_Layer: 5
-  m_Name: Txt_Hint
+  m_Name: Txt_Password1Hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,7 +1055,7 @@ GameObject:
   - component: {fileID: 2920302619690675980}
   - component: {fileID: 2920302619690675971}
   m_Layer: 5
-  m_Name: Txt_Hint
+  m_Name: Txt_UsernameHint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1347,7 +1370,7 @@ GameObject:
   - component: {fileID: 2920302619982269463}
   - component: {fileID: 2920302619982269462}
   m_Layer: 5
-  m_Name: Inp_Username
+  m_Name: Inp_Password1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2112,7 +2135,7 @@ GameObject:
   - component: {fileID: 7183252184513497112}
   - component: {fileID: 537787069719404383}
   m_Layer: 5
-  m_Name: Txt_Hint
+  m_Name: Txt_RegisterHint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2387,7 +2410,7 @@ GameObject:
   - component: {fileID: 6163067582242061821}
   - component: {fileID: 2704854162353420260}
   m_Layer: 5
-  m_Name: Txt_Hint
+  m_Name: Txt_Password2Hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

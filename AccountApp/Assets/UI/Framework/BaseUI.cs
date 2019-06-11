@@ -7,10 +7,25 @@ namespace UI.Framework
     {
         [Header("CommonEditor")] [SerializeField]
         private GameObject PopUp;
-        
+
+        private void OnEnable()
+        {
+            RegisterUIEvent();
+        }
+
+        private void OnDisable()
+        {
+            UnRegisterUIEvent();
+        }
+
+        private void OnDestroy()
+        {
+            OnDispose();
+        }
+
         public void InitUI(IBaseData data = null)
         {
-            baseData = data as BaseData;
+            if (data != null) baseData = data as BaseData;
         }
 
         public void Show()
@@ -47,6 +62,16 @@ namespace UI.Framework
 		public Action OnCloseEvent = null;
 
         protected BaseData baseData = null;
+
+        protected virtual void RegisterUIEvent()
+        {
+            
+        }
+
+        protected virtual void UnRegisterUIEvent()
+        {
+            
+        }
 
         protected virtual void OnShow()
         {
