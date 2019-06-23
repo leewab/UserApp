@@ -37,6 +37,7 @@ namespace UI.Framework
 
         public void Refresh(IBaseData data = null)
         {
+            if (data != null) baseData = data as BaseData;
             OnRefresh();
             OnRefreshEvent?.Invoke();
         }
