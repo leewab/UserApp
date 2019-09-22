@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using Framework.Network.HttpMoudle;
 using Newtonsoft.Json;
 using UI.Framework;
 using UI.UIPanel;

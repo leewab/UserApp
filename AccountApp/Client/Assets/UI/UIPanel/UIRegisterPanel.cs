@@ -49,48 +49,62 @@ public class UIRegisterPanel : BaseUI
     {
         if (isRegister)
         {
-            DataManager.Instance.SetUserData(new UserData()
+//            new UserData()
+//            {
+//                Username = username,
+//                Password = password1,
+//                Remark = "Register",
+//                AccountDatas = new List<AccountData>()
+//                {
+//                    new AccountData()
+//                    {
+//                        Webname = "ppppppp",
+//                        WebURL = "ooooooooooo",
+//                        WebUsername = "9999999999999",
+//                        WebPassword = "99999",
+//                        WebRemark = "8888"
+//                    },
+//                    new AccountData()
+//                    {
+//                        Webname = "ppppppp22",
+//                        WebURL = "oooooooooo222o",
+//                        WebUsername = "9999999999992229",
+//                        WebPassword = "99922299",
+//                        WebRemark = "88822228"
+//                    },
+//                    new AccountData()
+//                    {
+//                        Webname = "ppppppp333",
+//                        WebURL = "oooooooooo333o",
+//                        WebUsername = "999999999999339",
+//                        WebPassword = "9993399",
+//                        WebRemark = "88833328"
+//                    },
+//                    new AccountData()
+//                    {
+//                        Webname = "ppppppp4444",
+//                        WebURL = "oooooooooo24442o",
+//                        WebUsername = "99999999999944429",
+//                        WebPassword = "99444299",
+//                        WebRemark = "8882444428"
+//                    },
+//                }
+//            };
+            WWWForm wwwForm = new WWWForm();
+            wwwForm.AddField("username", username);
+            wwwForm.AddField("password", password1);
+            UserDataManager.Instance.AddUser(wwwForm, result =>
             {
-                Username = username,
-                Password = password1,
-                Remark = "Register",
-                AccountDatas = new List<AccountData>()
+                if (result)
                 {
-                    new AccountData()
-                    {
-                        Webname = "ppppppp",
-                        WebURL = "ooooooooooo",
-                        WebUsername = "9999999999999",
-                        WebPassword = "99999",
-                        WebRemark = "8888"
-                    },
-                    new AccountData()
-                    {
-                        Webname = "ppppppp22",
-                        WebURL = "oooooooooo222o",
-                        WebUsername = "9999999999992229",
-                        WebPassword = "99922299",
-                        WebRemark = "88822228"
-                    },
-                    new AccountData()
-                    {
-                        Webname = "ppppppp333",
-                        WebURL = "oooooooooo333o",
-                        WebUsername = "999999999999339",
-                        WebPassword = "9993399",
-                        WebRemark = "88833328"
-                    },
-                    new AccountData()
-                    {
-                        Webname = "ppppppp4444",
-                        WebURL = "oooooooooo24442o",
-                        WebUsername = "99999999999944429",
-                        WebPassword = "99444299",
-                        WebRemark = "8882444428"
-                    },
+                    Debug.Log("注册成功");
+                }
+                else
+                {
+                    Debug.Log("注册失败");
                 }
             });
-            DataManager.Instance.SaveUserData();
+//            DataManager.Instance.SaveUserData();
             InvokeRepeating("GoToLoginPanel", 2, 1);
         }
     }

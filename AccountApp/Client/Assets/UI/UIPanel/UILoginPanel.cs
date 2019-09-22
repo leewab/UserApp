@@ -51,10 +51,14 @@ public class UILoginPanel : BaseUI
         {
             txt_UserNameHint.text = "用户名不能为空！";
         }
-        else if (!DataManager.Instance.HasUser(act))
+
+        UserDataManager.Instance.HasUser(act, result =>
         {
-            txt_UserNameHint.text = "用户名不存在！";
-        }
+            if (!result)
+            {
+                txt_UserNameHint.text = "用户名不存在！";
+            }
+        });
     }
 
     private void OnPasswordEndEdit(string act)
@@ -69,22 +73,28 @@ public class UILoginPanel : BaseUI
     {
         username = inp_UserName.text;
         password = inp_Password.text;
-        var state = DataManager.Instance.IsLoginSuccess(username, password);
-        if (state == DataManager.UserLoginState.SUCCESS)
+        WWWForm wwwForm = new WWWForm();
+        wwwForm.AddField("username", username);
+        wwwForm.AddField("password", password);
+        UserDataManager.Instance.IsLoginSuccess(wwwForm, state =>
         {
-            txt_LoginHint.color = Color.green;
-            txt_LoginHint.text = "登录成功";
-            DataManager.Instance.CurUsername = username;
-            InvokeRepeating("LoginSuccess", 3, 1);
-        }
-        else if (state == DataManager.UserLoginState.PSD_INVALID)
-        {
-            txt_LoginHint.text = "密码无效";
-        }
-        else if (state == DataManager.UserLoginState.UN_EMPTY)
-        {
-            txt_LoginHint.text = @"用户名不存在";
-        }
+            if (state == (int)DataManager.UserLoginState.SUCCESS)
+            {
+                txt_LoginHint.color = Color.green;
+                txt_LoginHint.text = "登录成功";
+                DataManager.Instance.CurUsername = username;
+                InvokeRepeating("LoginSuccess", 3, 1);
+            }
+            else if (state == (int)DataManager.UserLoginState.PSD_INVALID)
+            {
+                txt_LoginHint.text = "密码无效";
+            }
+            else if (state == (int)DataManager.UserLoginState.UN_EMPTY)
+            {
+                txt_LoginHint.text = @"用户名不存在";
+            }
+        });
+       
     }
 
     private void OnClickRegisterEvent()
