@@ -22,7 +22,7 @@ public class UIMainPanel : BaseUI
     private List<GameObject> objList = new List<GameObject>();
     protected override void OnShow()
     {
-        userData = DataManager.Instance.GetUserData();
+        userData = UserDataManager.Instance.
         contentSizeFitter = tran_Content.GetComponent<ContentSizeFitter>();
         txt_UserName.text = DataManager.Instance.CurUsername;
         InitPanel();

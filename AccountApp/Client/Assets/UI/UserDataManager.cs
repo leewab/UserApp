@@ -7,6 +7,15 @@ namespace UI
 {
     public class UserDataManager : Singleton<UserDataManager>
     {
+
+        /// <summary>
+        /// 当前登录的用户
+        /// </summary>
+        private UserData curUserData = null;
+
+        public UserData CurUserData => curUserData;
+
+
         #region URL
 
         private string port = "45419";                   //端口动态获取 不固定
@@ -15,6 +24,14 @@ namespace UI
         private string url_IsLoginSuccess = "ibinggame.ticp.io:{0}/login";
 
         #endregion
+        
+        public enum UserLoginState
+        {
+            SUCCESS,            //登录成功
+            UN_REPETITION,      //用户名重复
+            UN_EMPTY,           //用户名不存在
+            PSD_INVALID,        //密码错误
+        }
         
         /// <summary>
         /// 是否有该用户
@@ -66,7 +83,8 @@ namespace UI
         {
             GameController.Instance.HttpHandler.ResponsePostEvet += s =>
             {
-                callBack?.Invoke(int.Parse(s));
+                curUserData = new UserData();  到这里的协议传送问题
+                callBack?.Invoke();
             };
             RequestServerWithPost(string.Format(url_IsLoginSuccess, port), wwwForm);
         }

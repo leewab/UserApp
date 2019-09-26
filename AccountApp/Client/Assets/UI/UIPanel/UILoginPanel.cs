@@ -78,18 +78,18 @@ public class UILoginPanel : BaseUI
         wwwForm.AddField("password", password);
         UserDataManager.Instance.IsLoginSuccess(wwwForm, state =>
         {
-            if (state == (int)DataManager.UserLoginState.SUCCESS)
+            if (state == (int)UserDataManager.UserLoginState.SUCCESS)
             {
                 txt_LoginHint.color = Color.green;
                 txt_LoginHint.text = "登录成功";
                 DataManager.Instance.CurUsername = username;
                 InvokeRepeating("LoginSuccess", 3, 1);
             }
-            else if (state == (int)DataManager.UserLoginState.PSD_INVALID)
+            else if (state == (int)UserDataManager.UserLoginState.PSD_INVALID)
             {
                 txt_LoginHint.text = "密码无效";
             }
-            else if (state == (int)DataManager.UserLoginState.UN_EMPTY)
+            else if (state == (int)UserDataManager.UserLoginState.UN_EMPTY)
             {
                 txt_LoginHint.text = @"用户名不存在";
             }
