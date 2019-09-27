@@ -10,12 +10,12 @@ namespace Framework.Network.HttpMoudle
         /// <summary>
         /// post方式的 response响应结果
         /// </summary>
-        private Action<string> response_PostEvet;
+        private Action<string> response_PostEvent;
 
-        public Action<string> ResponsePostEvet
+        public Action<string> ResponsePostEvent
         {
-            get => response_PostEvet;
-            set => response_PostEvet = value;
+            get => response_PostEvent;
+            set => response_PostEvent = value;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Framework.Network.HttpMoudle
             }
             else
             {
-                response_PostEvet?.Invoke(www.text);
+                response_PostEvent?.Invoke(www.text);
             }
         }
 

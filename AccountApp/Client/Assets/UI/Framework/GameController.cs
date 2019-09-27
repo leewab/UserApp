@@ -5,21 +5,14 @@ namespace UI.Framework
 {
     public class GameController : MonoSingleton<GameController>
     {
-        
-
-        /// <summary>
-        /// HttpHandler
-        /// </summary>
-        private HttpHandler httpHandler = null;
-
-        public HttpHandler HttpHandler
+        private void Awake()
         {
-            get => httpHandler ?? (httpHandler = new HttpHandler());
+            if(GameManager.Instance.HttpHandler.ResponsePostEvent != null) GameManager.Instance.HttpHandler.ResponsePostEvent += OnResponsePostEvent;
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            
+            if(GameManager.Instance.HttpHandler.ResponsePostEvent != null) GameManager.Instance.HttpHandler.ResponsePostEvent += OnResponsePostEvent;
         }
 
         private void InitData()
@@ -40,6 +33,11 @@ namespace UI.Framework
         private void LoadUI()
         {
             UIManager.Instance.OpenUI<UILoginPanel>();
+        }
+
+        private void OnResponsePostEvent(string protocolStr)
+        {
+            
         }
     }
 }

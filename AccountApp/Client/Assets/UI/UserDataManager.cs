@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UI.Framework;
 using UnityEngine;
 
@@ -83,7 +82,8 @@ namespace UI
         {
             GameController.Instance.HttpHandler.ResponsePostEvet += s =>
             {
-                curUserData = new UserData();  到这里的协议传送问题
+                var userDatas = new ProtocolUserData();
+                
                 callBack?.Invoke();
             };
             RequestServerWithPost(string.Format(url_IsLoginSuccess, port), wwwForm);
