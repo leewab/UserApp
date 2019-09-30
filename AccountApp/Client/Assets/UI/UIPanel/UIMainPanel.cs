@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UI;
 using UI.Framework;
+using UI.Manager;
 using UI.UIPanel;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,14 +19,17 @@ public class UIMainPanel : BaseUI
     [SerializeField] private GameObject obj_Item;
 
     private UserData userData = null;
+    public List<AccountData> accountDatas = null;
+    private bool isInited = false;
+
     private ContentSizeFitter contentSizeFitter;
     private List<GameObject> objList = new List<GameObject>();
     protected override void OnShow()
     {
-        userData = UserDataManager.Instance.
-        contentSizeFitter = tran_Content.GetComponent<ContentSizeFitter>();
-        txt_UserName.text = DataManager.Instance.CurUsername;
-        InitPanel();
+        userData = UserDataManager.Instance.CurUserData;
+        accountDatas = AccountDataManager.Instance.AccountDatas;
+        txt_UserName.text = userData?.Username;
+        if (accountDatas != null) isInited = true;
     }
 
     protected override void OnRefresh()
@@ -53,20 +57,10 @@ public class UIMainPanel : BaseUI
         btn_Refresh.onClick.RemoveListener(OnClickRefreshEvent);
     }
 
-    private void InitPanel()
-    {
-        if (userData == null || userData.AccountDatas == null) return;
-        int count = userData.AccountDatas.Count;
-        for (int i = 0; i < count; i++)
-        {
-            queue.Enqueue(userData.AccountDatas[i]);
-        }
-    }
-
     private void OnClickSignOutEvent()
     {
         UIManager.Instance.CloseUI<UIMainPanel>();
-        DataManager.Instance.CurUsername = null;
+        UserDataManager.Instance.CurUserData = null;
         UIManager.Instance.OpenUI<UILoginPanel>();
     }
 
@@ -84,6 +78,38 @@ public class UIMainPanel : BaseUI
         Refresh();
     }
 
+    private void ClearPanel()
+    {
+        txt_UserName.text = "";
+        for (int i = 0; i < objList.Count; i++)
+        {
+            if (objList[i] != null) Destroy(objList[i]);
+        }
+        objList.Clear();
+    }
+
+    private void Awake()
+    {
+        contentSizeFitter = tran_Content.GetComponent<ContentSizeFitter>();
+    }
+
+    private int sordIndex = 0;
+    private void Update()
+    {
+        GenerateItem();
+    }
+
+    private void GenerateItem()
+    {
+        if (sordIndex >= accountDatas.Count)
+        {
+            isInited = false;
+            return;
+        }
+        CreateItem(accountDatas[sordIndex]);
+        sordIndex ++;
+    }
+    
     private void CreateItem(AccountData _data)
     {
         if (_data == null) return;
@@ -105,30 +131,6 @@ public class UIMainPanel : BaseUI
                 Refresh();
             }
         });
-    }
-
-    private void ClearPanel()
-    {
-        txt_UserName.text = "";
-        for (int i = 0; i < objList.Count; i++)
-        {
-            if (objList[i] != null) Destroy(objList[i]);
-        }
-        objList.Clear();
-    }
-
-    private Queue<AccountData> queue = new Queue<AccountData>();
-    private float time = 0;
-    private void Update()
-    {
-        time += 0.1f;
-        GenerateItem(time);
-    }
-
-    private void GenerateItem(float value)
-    {
-        if (value < 3 || queue.Count <= 0) return; 
-        CreateItem(queue.Dequeue());
     }
 }
 

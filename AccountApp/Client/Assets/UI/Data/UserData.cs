@@ -2,17 +2,15 @@ using System.Collections.Generic;
 
 namespace UI
 {
-    [System.Serializable]
     public class UserData
     {
         public string Username;
-        public int MobileNo;
         public string Password;
+        public int PhoneNo;
+        public int IdCard;
         public string Remark;
-        public List<AccountData> AccountDatas;
     }
 
-    [System.Serializable]
     public class AccountData
     {
         public string Webname;

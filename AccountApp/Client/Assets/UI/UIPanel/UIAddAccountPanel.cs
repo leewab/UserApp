@@ -1,5 +1,6 @@
 using UI;
 using UI.Framework;
+using UI.Manager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,14 +43,13 @@ public class UIAddAccountPanel : BaseUI
 
     private void OnClickConfirmEvent()
     {
-        DataManager.Instance.AddAccountSingleData(new AccountData()
-        {
-            Webname = inp_WebName.text,
-            WebURL = inp_WebURL.text,
-            WebUsername = inp_WebUsername.text,
-            WebPassword = inp_Password.text,
-            WebRemark = inp_Remark.text
-        });
+        WWWForm wwwForm = new WWWForm();
+        wwwForm.AddField("webname", inp_WebName.text);
+        wwwForm.AddField("weburl", inp_WebURL.text);
+        wwwForm.AddField("webusername", inp_WebUsername.text);
+        wwwForm.AddField("webpassword", inp_Password.text);
+        wwwForm.AddField("webremark", inp_Remark.text);
+        AccountDataManager.Instance.AddAccountData(wwwForm);
         UIManager.Instance.CloseUI<UIAddAccountPanel>();
     }
 

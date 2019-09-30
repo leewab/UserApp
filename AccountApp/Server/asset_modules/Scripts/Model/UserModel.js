@@ -50,8 +50,8 @@ function UserModel(){
         var accountInfo = {
             username: _bodyInfo.username,
             password: _bodyInfo.password,
-            idcard: _bodyInfo.idcard,
-            phone: _bodyInfo.phone
+            // idcard: _bodyInfo.idcard,
+            // phone: _bodyInfo.phone
         };
         userDataHandler.CreateAccount(accountInfo, _callBack);
     }

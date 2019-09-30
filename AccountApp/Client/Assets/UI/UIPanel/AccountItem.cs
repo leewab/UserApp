@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using UI.Manager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,9 +22,10 @@ namespace UI.UIPanel
         private Action<bool> onCalBackShowSercet;
         private Action onCallBackDelete;
         private AccountData accountData;
-        
+
         public void InitItem(AccoutItemInfo info)
         {
+            if (info == null) return;
             accountData = info.data;
             onCallBackDelete = info.callBackDelete;
             onCalBackShowSercet = info.callBackShowSecret;
@@ -64,11 +66,18 @@ namespace UI.UIPanel
 
         private void OnClickDeleteEvent()
         {
-            DataManager.Instance.RemoveAccoutnSingleData(accountData);
+            if (accountData == null) return;
+            WWWForm wwwForm = new WWWForm();
+            wwwForm.AddField("webname", accountData.Webname);
+            wwwForm.AddField("weburl", accountData.WebURL);
+            wwwForm.AddField("webusername", accountData.WebUsername);
+            wwwForm.AddField("webpassword", accountData.WebPassword);
+            wwwForm.AddField("webremark", accountData.WebRemark);
+            AccountDataManager.Instance.RemoveAccountData(wwwForm);
             onCallBackDelete?.Invoke();
             Destroy(gameObject);
         }
-        
+
         private void ShowSecret()
         {
             rectTrans.sizeDelta = vec2_Max;
@@ -88,7 +97,6 @@ namespace UI.UIPanel
                     onCalBackShowSercet?.Invoke(false);
                 });
         }
-        
     }
 
     public class AccoutItemInfo

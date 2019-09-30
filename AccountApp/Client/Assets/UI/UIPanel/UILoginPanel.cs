@@ -1,5 +1,7 @@
 ﻿using UI;
 using UI.Framework;
+using UI.Manager;
+using UI.UIPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,10 +41,48 @@ public class UILoginPanel : BaseUI
 
     protected override void RegisterUIEvent()
     {
+        base.RegisterUIEvent();
         btn_Login.onClick.AddListener(OnClickLoginEvent);
         btn_Register.onClick.AddListener(OnClickRegisterEvent);
         inp_UserName.onEndEdit.AddListener(OnUserNameEndEdit);
         inp_Password.onEndEdit.AddListener(OnPasswordEndEdit);
+    }
+
+    protected override void OnResponseNetEvent(int protocolId, ProtocolData protocolData)
+    {
+        base.OnResponseNetEvent(protocolId, protocolData);
+
+        //用户协议数据
+        ProtocolUserData userData = null;
+        if (protocolData is ProtocolUserData)
+        {
+            userData = protocolData as ProtocolUserData;
+        }
+        
+        //分协议走逻辑
+        if (protocolId == (int)ProtocolEnum.RES_USER_STATE.USER_LOGIN_SUCCESS)
+        {
+            if (userData?.UserDatas?[0] != null)
+            {
+                txt_LoginHint.color = Color.green;
+                txt_LoginHint.text = "登录成功";
+                UserDataManager.Instance.CurUserData = userData.UserDatas[0];
+                LoginSuccess();
+            }
+            else
+            {
+                Debug.LogError("数据解析异常 或 获取的服务器数据有误");
+                txt_LoginHint.text = "数据解析异常 或 获取的服务器数据有误";
+            }
+        }
+        else if (protocolId == (int)ProtocolEnum.RES_USER_STATE.USER_LOGIN_FAIL)
+        {
+            txt_LoginHint.text = "密码无效";
+        }
+        else if (protocolId == (int)ProtocolEnum.RES_USER_STATE.USER_LOGIN_NOUSER)
+        {
+            txt_LoginHint.text = @"用户名不存在";
+        }
     }
 
     private void OnUserNameEndEdit(string act)
@@ -76,25 +116,9 @@ public class UILoginPanel : BaseUI
         WWWForm wwwForm = new WWWForm();
         wwwForm.AddField("username", username);
         wwwForm.AddField("password", password);
-        UserDataManager.Instance.IsLoginSuccess(wwwForm, state =>
-        {
-            if (state == (int)UserDataManager.UserLoginState.SUCCESS)
-            {
-                txt_LoginHint.color = Color.green;
-                txt_LoginHint.text = "登录成功";
-                DataManager.Instance.CurUsername = username;
-                InvokeRepeating("LoginSuccess", 3, 1);
-            }
-            else if (state == (int)UserDataManager.UserLoginState.PSD_INVALID)
-            {
-                txt_LoginHint.text = "密码无效";
-            }
-            else if (state == (int)UserDataManager.UserLoginState.UN_EMPTY)
-            {
-                txt_LoginHint.text = @"用户名不存在";
-            }
-        });
-       
+
+        UIManager.Instance.OpenUI<UINetLoadingPanel>();
+        UserDataManager.Instance.UserLogin(wwwForm);
     }
 
     private void OnClickRegisterEvent()
@@ -105,9 +129,8 @@ public class UILoginPanel : BaseUI
 
     private void LoginSuccess()
     {
-        UIManager.Instance.OpenUI<UIMainPanel>();
+        UIManager.Instance.OpenUI<UIMainLoadingPanel>();
         UIManager.Instance.CloseUI<UILoginPanel>();
-        CancelInvoke();
     }
 
     private void ClearPanel()

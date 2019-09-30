@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UI;
 using UI.Framework;
+using UI.Manager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,67 +46,29 @@ public class UIRegisterPanel : BaseUI
         inp_Password2.onEndEdit.AddListener(OnPassword2EndEditEvent);
     }
 
+    protected override void OnResponseNetEvent(int protocolId, ProtocolData protocolData)
+    {
+        base.OnResponseNetEvent(protocolId, protocolData);
+        Debug.Log("Register OnResponseNetEvent");
+        if (protocolId == (int) ProtocolEnum.RES_USER_STATE.USER_REGISTER_SUCCESS)
+        {
+            Debug.Log("注册成功");
+            GoToLoginPanel();
+        }
+        else if (protocolId == (int) ProtocolEnum.RES_USER_STATE.USER_REGISTER_FAIL)
+        {
+            Debug.Log("注册失败");
+        }
+    }
+
     private void OnClickRegisterEvent()
     {
         if (isRegister)
         {
-//            new UserData()
-//            {
-//                Username = username,
-//                Password = password1,
-//                Remark = "Register",
-//                AccountDatas = new List<AccountData>()
-//                {
-//                    new AccountData()
-//                    {
-//                        Webname = "ppppppp",
-//                        WebURL = "ooooooooooo",
-//                        WebUsername = "9999999999999",
-//                        WebPassword = "99999",
-//                        WebRemark = "8888"
-//                    },
-//                    new AccountData()
-//                    {
-//                        Webname = "ppppppp22",
-//                        WebURL = "oooooooooo222o",
-//                        WebUsername = "9999999999992229",
-//                        WebPassword = "99922299",
-//                        WebRemark = "88822228"
-//                    },
-//                    new AccountData()
-//                    {
-//                        Webname = "ppppppp333",
-//                        WebURL = "oooooooooo333o",
-//                        WebUsername = "999999999999339",
-//                        WebPassword = "9993399",
-//                        WebRemark = "88833328"
-//                    },
-//                    new AccountData()
-//                    {
-//                        Webname = "ppppppp4444",
-//                        WebURL = "oooooooooo24442o",
-//                        WebUsername = "99999999999944429",
-//                        WebPassword = "99444299",
-//                        WebRemark = "8882444428"
-//                    },
-//                }
-//            };
             WWWForm wwwForm = new WWWForm();
             wwwForm.AddField("username", username);
             wwwForm.AddField("password", password1);
-            UserDataManager.Instance.AddUser(wwwForm, result =>
-            {
-                if (result)
-                {
-                    Debug.Log("注册成功");
-                }
-                else
-                {
-                    Debug.Log("注册失败");
-                }
-            });
-//            DataManager.Instance.SaveUserData();
-            InvokeRepeating("GoToLoginPanel", 2, 1);
+            UserDataManager.Instance.UserRegister(wwwForm);
         }
     }
 
@@ -170,7 +133,6 @@ public class UIRegisterPanel : BaseUI
             passwordD = password1
         });
         UIManager.Instance.CloseUI<UIRegisterPanel>();
-        CancelInvoke();
     }
     
     private void ClearPanel()

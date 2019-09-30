@@ -1,4 +1,5 @@
 using System;
+using UI.Manager;
 using UnityEngine;
 
 namespace UI.Framework
@@ -8,17 +9,17 @@ namespace UI.Framework
         [Header("CommonEditor")] [SerializeField]
         private GameObject PopUp;
 
-        private void OnEnable()
+        protected  virtual void OnEnable()
         {
             RegisterUIEvent();
         }
 
-        private void OnDisable()
+        protected  virtual  void OnDisable()
         {
             UnRegisterUIEvent();
         }
 
-        private void OnDestroy()
+        protected  virtual  void OnDestroy()
         {
             OnDispose();
         }
@@ -56,6 +57,15 @@ namespace UI.Framework
             }
         }
 
+        #region Net Event
+        
+        protected virtual void OnResponseNetEvent(int protocolId, ProtocolData protocolData)
+        {
+            
+        }
+
+        #endregion
+
         #region UI生命周期
 		
 		public Action OnShowEvent = null;
@@ -66,12 +76,14 @@ namespace UI.Framework
 
         protected virtual void RegisterUIEvent()
         {
-            
+            if(GameManager.Instance.ProtocolHandler != null) GameManager.Instance.ProtocolHandler.ProtocolDatasAction += OnResponseNetEvent;
+            if(GameManager.Instance.ProtocolHandler != null) GameManager.Instance.ProtocolHandler.ProtocolDatasAction += OnResponseNetEvent;
         }
 
         protected virtual void UnRegisterUIEvent()
         {
-            
+            if(GameManager.Instance.ProtocolHandler != null) GameManager.Instance.ProtocolHandler.ProtocolDatasAction -= OnResponseNetEvent;
+            if(GameManager.Instance.ProtocolHandler != null) GameManager.Instance.ProtocolHandler.ProtocolDatasAction -= OnResponseNetEvent;
         }
 
         protected virtual void OnShow()

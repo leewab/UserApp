@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(multer({ dest: '/tmp/' }).array('pmForm'));
 
 /** 用户注册 */
-app.post('/ua/regist', function (req, res){
+app.post('/ua/register', function (req, res){
   console.log('注册用户');
   userModel.RegistUser(req, res);
 });
@@ -34,7 +34,6 @@ app.post('/ua/login', function (req, res){
 app.get('./ua/index', function (req, res){
   
 })
-
 
 var server = app.listen(8081, function () {
   var host = server.address().address

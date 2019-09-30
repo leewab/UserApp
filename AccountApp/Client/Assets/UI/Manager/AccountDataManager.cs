@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using UI.Framework;
 using UnityEngine;
 
-namespace UI
+namespace UI.Manager
 {
     public class AccountDataManager : Singleton<AccountDataManager>
     {
@@ -21,7 +21,7 @@ namespace UI
         /// <param name="callBack"></param>
         public void RequestUserAccountData()
         {
-            GameController.Instance.HttpHandler.ResponseGetEvent += s =>
+            GameManager.Instance.HttpHandler.ResponseGetEvent += s =>
             {
                 try
                 {
@@ -36,27 +36,24 @@ namespace UI
             
             WWWForm wwwForm = new WWWForm();
             wwwForm.AddField("searchkey", "*");
-            RequestServerWithPost(string.Format(DefineManager.url_RequestAccountData), wwwForm);
-        }
-        
-                
-        /// <summary>
-        /// Get方式请求服务器
-        /// </summary>
-        /// <param name="allUrl"></param>
-        public void RequestServerWithGet(string allUrl)
-        {
-            GameController.Instance.StartCoroutine(GameController.Instance.HttpHandler.IGetFormRequest(allUrl));
+            wwwForm.AddField("protocolId", (int)ProtocolEnum.REQ_ACCOUNT_ACTION.ACCOUNT_QUESTDATA);
+            GameManager.Instance.HttpHandler.RequestServerWithPost(DefineData.url_RequestAccountData, wwwForm);
         }
 
         /// <summary>
-        /// Post方式请求服务器
+        /// 添加账户数据
         /// </summary>
-        /// <param name="allUrl"></param>
-        /// <param name="form"></param>
-        public void RequestServerWithPost(string allUrl, WWWForm form)
+        /// <param name="wwwForm"></param>
+        public void AddAccountData(WWWForm wwwForm)
         {
-            GameController.Instance.StartCoroutine(GameController.Instance.HttpHandler.IPostFormRequest(allUrl, form));
+            wwwForm.AddField("protocolId", (int)ProtocolEnum.REQ_ACCOUNT_ACTION.ACCOUNT_ADDDATA);
+            GameManager.Instance.HttpHandler.RequestServerWithPost(DefineData.url_AddAccountData, wwwForm);
+        }
+
+        public void RemoveAccountData(WWWForm wwwForm)
+        {
+            wwwForm.AddField("protocolId", (int)ProtocolEnum.REQ_ACCOUNT_ACTION.ACCOUNT_REMOVEDATA);
+            GameManager.Instance.HttpHandler.RequestServerWithPost(DefineData.url_RemoveAccountData, wwwForm);
         }
     }
     

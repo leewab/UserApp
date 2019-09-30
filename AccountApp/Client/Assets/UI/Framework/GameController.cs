@@ -1,4 +1,4 @@
-using Framework.Network.HttpMoudle;
+using UI.Manager;
 using UnityEngine;
 
 namespace UI.Framework
@@ -7,29 +7,31 @@ namespace UI.Framework
     {
         private void Awake()
         {
-            if(GameManager.Instance.HttpHandler.ResponsePostEvent != null) GameManager.Instance.HttpHandler.ResponsePostEvent += OnResponsePostEvent;
+            GameManager.Instance.OnSingletonInit();
+        }
+
+        private void OnEnable()
+        {
+            if(GameManager.Instance.HttpHandler != null) GameManager.Instance.HttpHandler.ResponsePostEvent += OnResponsePostEvent;
+        }
+        
+        private void Start()
+        {
+            LoadUI();
+        }
+
+        private void OnDisable()
+        {
+            if(GameManager.Instance.HttpHandler != null) GameManager.Instance.HttpHandler.ResponsePostEvent -= OnResponsePostEvent;
+            Dispose();
         }
 
         private void OnDestroy()
         {
-            if(GameManager.Instance.HttpHandler.ResponsePostEvent != null) GameManager.Instance.HttpHandler.ResponsePostEvent += OnResponsePostEvent;
-        }
-
-        private void InitData()
-        {
+            Debug.Log("销毁GameController");
             
         }
 
-        /// <summary>
-        /// 在此load远程数据 存入到DataManager中
-        ///     原则：   已有数据只进行初次加载，一次远端访问
-        ///             新增数据在客户端已有数据上添加，之后统一上传 ，删除数据同样
-        /// </summary>
-        private void LoadData()
-        {
-            
-        }
-        
         private void LoadUI()
         {
             UIManager.Instance.OpenUI<UILoginPanel>();
@@ -37,7 +39,17 @@ namespace UI.Framework
 
         private void OnResponsePostEvent(string protocolStr)
         {
-            
+            Debug.Log("OnResponsePostEvent");
+            Debug.Log(protocolStr);
+            GameManager.Instance.ProtocolHandler.ParseProtocolInfo(protocolStr);
+        }
+
+        /// <summary>
+        /// 通过GameController的Dispose 释放游戏中所有的对象 最后销毁GameController对象
+        /// </summary>
+        private void Dispose()
+        {
+            GameManager.Instance.OnSingletonDispose();
         }
     }
 }

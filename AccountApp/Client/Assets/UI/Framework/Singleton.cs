@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace UI.Framework
 {
     public class Singleton<T> where T : class, new()
@@ -15,6 +17,16 @@ namespace UI.Framework
 
                 return instance;
             }
+        }
+
+        public virtual void OnSingletonInit()
+        {
+            Debug.Log("----------SingletonInit----------");
+        }
+
+        public virtual void OnSingletonDispose()
+        {
+            Debug.Log("----------SingletonDestory----------");
         }
     }
 }
