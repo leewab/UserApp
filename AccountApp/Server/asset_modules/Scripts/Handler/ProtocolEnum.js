@@ -1,27 +1,40 @@
 var ProtocolEnum = {
 
-    /** 用户登录协议 */
-    USER_LOGIN : {
-        LOGINSUCCESS : 10000,          //登录成功
-        PASSEORD_ERROR : 10001,        //密码错误
-        CODE_ERROR : 10002,            //验证码错误
-        USERNAME_NO : 10003,           //用户名没有
+    /// <summary>
+    /// 用户模块 客户端请求动作
+    /// </summary>
+    REQ_USER_ACTION:
+    {
+        USER_ADD: 10005,
+        USER_REMOVE: 10006,
+        USER_GET: 10007,
+        USER_LOGIN: 10008,
+        USER_REGISTER: 10009,
     },
 
-    /** 用户注册协议 */
-    USER_REGIST : {
-        REGISTSUCCESS : 20000,         //注册成功
-        USERNAME_REPEAT : 20001,       //用户名重复
+    /// <summary>
+    /// 账户模块 客户端请求动作
+    /// </summary>
+    REQ_ACCOUNT_ACTION:
+    {
+        ACCOUNT_QUESTDATA : 20001,
+        ACCOUNT_ADDDATA : 20002,
+        ACCOUNT_REMOVEDATA : 20003,
     },
 
-    /** 账户信息 */
-    ACCOUNTINFO : {
-        REQUESTDATAS : 30000,          //请求数据
-        ADDDATA_SUCCESS : 30001,       //添加数据
-        ADDDATA_FAIL : 30002,          //添加数据
-        REMOVEDATA_SUCCESS : 30003,    //移除数据
-        REMOVEDATA_FAIL : 30004,       //移除数据
-    }
+    /// <summary>
+    /// 用户模块 服务器响应状态
+    /// </summary>
+    RES_USER_STATE:
+    {
+        USER_LOGIN_SUCCESS: 100001,         //用户登录成功
+        USER_LOGIN_FAIL: 100002,            //用户登录失败（密码\验证码错误）
+        USER_LOGIN_ERROE: 100003,           //用户登录出错（网络、数据错误）
+        USER_LOGIN_NOUSER: 100004,          //用户名不存在
+
+        USER_REGISTER_SUCCESS: 100010,      //用户注册成功
+        USER_REGISTER_FAIL: 100011,         //用户注册失败
+    },
 }
 
 global.ProtocolEnum = ProtocolEnum;

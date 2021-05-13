@@ -6,7 +6,7 @@ function UserDataHander(){
     /** 通过用户名查询用户账户 */
     this.FindUserAccountWithName = function(_username, _callBack){
         if(_username == null) return;
-        mySQL.ResearchSwitch("*", "user_account", "username = '" + _username.trim() + "'", function(_result){
+        mySQL.ResearchSwitch("*", "user_lib", "username = '" + _username.trim() + "'", function(_result){
             console.error(_result);
             if(_result != null && _result.length > 0){
                 //表示有一个账户
@@ -37,7 +37,7 @@ function UserDataHander(){
         if(_userAccountTable == null) return;
         var title = "username, password, idcard, phone";
         var data = "'" + _userAccountTable.username + "', '" + _userAccountTable.password + "', '" + _userAccountTable.idcard + "', '" + _userAccountTable.phone + "'";
-        var table = "user_account";
+        var table = "user_lib";
         console.log(data);
         mySQL.Insert(title, data, table, _callBack);
     }

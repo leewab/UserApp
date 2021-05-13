@@ -14,12 +14,16 @@ function UserModel(){
                 CreateAccount(bodyInfo, function(_createResult){
                     if(_createResult == null){
                         console.error('新增账户失败');
-                        res.end("fail");
+                        //{"Id":90983872,"Data":{"UserDatas":[{"Username":"000","Password":"999","PhoneNo":7654,"IdCard":88,"Remark":null}]}}
+                        var result = "{'Id':" + ProtocolEnum.RES_USER_STATE.USER_REGISTER_FAIL + ", 'Data': 'null'}";
+                        res.end(result);
                     }
                     else
                     {
                         console.error('新增账户成功');
-                        res.end("success");
+                        var result = "{\"Id\":" + ProtocolEnum.RES_USER_STATE.USER_REGISTER_SUCCESS +
+                         ", \"Data\":{\"UserDatas\":[{\"Username\":\""+ bodyInfo.username +"\",\"Password\":\"" + bodyInfo.password + "\",\"PhoneNo\":\"7654\",\"IdCard\":\"88\",\"Remark\":null}]}}";
+                        res.end(result);
                     }
                 });
             }
@@ -50,8 +54,8 @@ function UserModel(){
         var accountInfo = {
             username: _bodyInfo.username,
             password: _bodyInfo.password,
-            // idcard: _bodyInfo.idcard,
-            // phone: _bodyInfo.phone
+            idcard: "999999999",
+            phone: "110"
         };
         userDataHandler.CreateAccount(accountInfo, _callBack);
     }

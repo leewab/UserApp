@@ -31,9 +31,14 @@ app.post('/ua/login', function (req, res){
   userModel.LoginUser(req, res);
 });
 
-app.get('./ua/index', function (req, res){
+app.get('/ua/index', function (req, res){
   
-})
+});
+
+app.get('/ua/register', function(req, res){
+  console.log("Get Register");
+  res.send("Get register");
+});
 
 var server = app.listen(8081, function () {
   var host = server.address().address
